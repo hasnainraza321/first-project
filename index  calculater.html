@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Calculator</title>
+  <!-- Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+
+<div class="container">
+  <h3 class="center-align">Calculator</h3>
+  <div class="row">
+    <div class="col s12 m6 offset-m3">
+      <div class="card-panel">
+        <input type="text" id="result" class="center-align" readonly>
+        <div class="row">
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(7)">7</button>
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(8)">8</button>
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(9)">9</button>
+          <button class="col s3 btn waves-effect waves-light red darken-1" onclick="clearDisplay()">C</button>
+        </div>
+        <div class="row">
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(4)">4</button>
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(5)">5</button>
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(6)">6</button>
+          <button class="col s3 btn waves-effect waves-light orange darken-1" onclick="appendOperator('*')">*</button>
+        </div>
+        <div class="row">
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(1)">1</button>
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(2)">2</button>
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(3)">3</button>
+          <button class="col s3 btn waves-effect waves-light orange darken-1" onclick="appendOperator('/')">/</button>
+        </div>
+        <div class="row">
+          <button class="col s3 btn waves-effect waves-light" onclick="appendNumber(0)">0</button>
+          <button class="col s3 btn waves-effect waves-light" onclick="appendDecimal()">.</button>
+          <button class="col s3 btn waves-effect waves-light blue darken-1" onclick="calculate()">=</button>
+          <button class="col s3 btn waves-effect waves-light blue darken-1" onclick="appendOperator('+')">+</button>
+        </div>
+        <div class="row">
+          <button class="col s6 btn waves-effect waves-light" onclick="backspace()">Backspace</button>
+          <button class="col s6 btn waves-effect waves-light blue darken-1" onclick="appendOperator('-')">-</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Materialize JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script>
+  let expression = '';
+
+  function appendNumber(number) {
+    document.getElementById('result').value += number;
+    expression += number;
+  }
+
+  function appendOperator(operator) {
+    if (expression !== '' && !isNaN(expression.slice(-1))) {
+      document.getElementById('result').value += operator;
+      expression += operator;
+    }
+  }
+
+  function appendDecimal() {
+    if (expression === '' || !(/[.*/+\-]/).test(expression.slice(-1))) {
+      document.getElementById('result').value += '.';
+      expression += '.';
+    }
+  }
+
+  function clearDisplay() {
+    document.getElementById('result').value = '';
+    expression = '';
+  }
+
+  function backspace() {
+    document.getElementById('result').value = document.getElementById('result').value.slice(0, -1);
+    expression = expression.slice(0, -1);
+  }
+
+  function calculate() {
+    try {
+      const result = eval(expression);
+      document.getElementById('result').value = result;
+      expression = result.toString();
+    } catch (error) {
+      document.getElementById('result').value = 'Error';
+      expression = '';
+    }
+  }
+</script>
+
+</body>
+</html>
